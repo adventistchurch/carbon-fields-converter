@@ -1,11 +1,9 @@
 <?php
 /**
  * Plugin Name: ALPS Fields Converter
- * Description: This will convert your fields from Piklist to Carbon Fields format.
+ * Description: This will convert your fields from Piklist to Carbon Fields format. This only runs once when it is activated. 
  */
 defined( 'ABSPATH' ) or die( 'No direct access allowed.' );
-
-register_activation_hook( __FILE__, 'alps_convert_fields' );
 
 function alps_convert_fields() {
   global $wpdb;
@@ -14,9 +12,11 @@ function alps_convert_fields() {
     // OUR WORK HERE IS DONE
     add_action( 'admin_notices', 'alps_admin_notice__success' );
   } else {
-    /********************************************************************************
+    /* *******************************************************************************
       THEME OPTIONS
-    ********************************************************************************/
+    ******************************************************************************* */
+    $alps_options = get_option( 'alps_theme_settings' );
+
     foreach ( $alps_options as $opt_key =>  $opt_val ) {
       // IS THIS A COMPLEX / REPEATER STYLE FIELD?
       if ( is_array( $opt_val ) ) {
@@ -27,8 +27,7 @@ function alps_convert_fields() {
           $opt_newkey = '_' .$opt_key. '|'. $opt_subkey . '|0|0|value';
           add_option ( $opt_newkey, $opt_subval );
         }
-      }
-      else {
+      } else {
         // HANDLE CATEGORY CONVERSION
         if ( 'category' == $opt_key ) {
           if ( $opt_val ) {
@@ -37,17 +36,17 @@ function alps_convert_fields() {
             add_option( '_category|||0|type', 'term' );
             add_option( '_category|||0|subtype', 'category' );
             add_option( '_category|||0|id', $opt_val );
-            }
+          }
         } else {
           // WE HAVE A SIMPLE FIELD / VALUE
           add_option( '_' .$opt_key, $opt_val );
         }
       }
     }
-    /********************************************************************************
+    /* *******************************************************************************
       PAGE FIELDS
-    ********************************************************************************/
-    $update_fields = array(
+    ******************************************************************************* */
+   $update_fields = array(
       'hide_featured_image',
       'video_url',
       'video_caption',
@@ -122,16 +121,13 @@ function alps_convert_fields() {
       }
     }
 
-    add_option( 'alps_cf_converted', TRUE );
-    do_action( 'admin_notices', function() { ?>
+   add_option( 'alps_cf_converted', TRUE );
+   do_action( 'admin_notices', function() { ?>
     <div class="notice notice-success is-dismissible">
-        <p><?php _e( 'Your Piklist fields have been converted. You can now remove the ALPS Fields Converter plugin.', 'sample-text-domain' ); ?></p>
+        <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, and you can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
     </div>
     <?php
     } );
   }
 } //  alps_convert_fields
-
-
-
-
+register_activation_hook( __FILE__, 'alps_convert_fields' );
