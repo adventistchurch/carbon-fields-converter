@@ -63,6 +63,173 @@ function alps_convert_fields() {
       } // IF ALPS OPTIONS
     }
     /* *******************************************************************************
+      WIDGETS
+    ******************************************************************************* */
+     // GET CURRENT SIDEBAR / WIDGET CONFIG 
+    $alps_sidebar_widgets = get_option( 'sidebars_widgets' );
+    if ( $alps_sidebar_widgets ) {
+      // FIRST GET PIKLIST WIDGET FIELD DATA
+      $piklist_widgets = get_option( 'widget_piklist-universal-widget-theme' );
+      $match_title = 'piklist-universal-widget-theme';
+      // GET SIDEBAR AREAS
+      foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
+        // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
+        if ( count( $area_widgets ) ) {
+          foreach ( $area_widgets as $this_widget_title ) {
+          // ONLY MATCH ON PIKLIST WIDGETS
+          if ( strpos( $this_widget_title, $match_title ) !== false ) {
+              // GET WIDGET INFO - GET ID
+              $getID = explode( '-', $this_widget_title );
+              $widget_id = array_pop( $getID );  
+              $this_widget = $piklist_widgets[ $widget_id ];
+              $this_type = $this_widget[ 'widget' ];
+              // HANDLE WIDGET TYPE
+              switch ( $this_type ) {
+                // ===================== SOCIAL ======================================================= 
+                case 'theme_widget_social' :
+                  // CARBON FIELDS USES 'YES' INSTEAD OF TRUE
+                  if ( $this_widget[ 'horizontal_rule' ] == true ) {
+                    $hr = 'yes';
+                  }
+                  $fields = array(
+                    '_facebook_url'    => $this_widget[ 'facebook_url' ],
+                    '_twitter_url'     => $this_widget[ 'twitter_url' ],
+                    '_flickr_url'      => $this_widget[ 'flickr_url' ],
+                    '_youtube_url'     => $this_widget[ 'youtube_url' ],
+                    '_vimeo_url'       => $this_widget[ 'vimeo_url' ],
+                    '_email_address'   => $this_widget[ 'email_address' ],
+                    '_horizontal_rule' => $hr
+                  );
+                  $social_fields[ $widget_id ] = $fields;
+                  // ================== WIDGET FIELDS =======================
+                  // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                  $existing_cf_social_widgets = get_option( 'widget_carbon_fields_alps_widget_social' );
+                  $merged_cf_social = array_merge_recursive_numeric_keys( $existing_cf_social, $social_fields );
+                  update_option( 'widget_carbon_fields_alps_widget_social', $merged_cf_social );
+                  // END WIDGET FIELDS ======================================
+
+                  // ================== SIDEBAR AREAS =======================
+                  // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
+                  $wp_sidebar_widgets = wp_get_sidebars_widgets();
+                  if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+                    // GRAB POSITION IN SIDEBAR BEFORE REMOVING
+                    $update_key = $key;
+                    unset( $wp_sidebar_widgets[ $area ][ $key ] );
+                  }
+                  // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
+                  $update_sidebar = array( 
+                    $area => array(
+                      $update_key => 'carbon_fields_alps_widget_social-' . $widget_id
+                    )
+                  );
+                  // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
+                  $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
+                  wp_set_sidebars_widgets( $merged_update );
+                    break;
+
+                // ===================== POST FEED ======================================================= 
+                case 'theme_widget_post_feed' :
+                  // CARBON FIELDS USES 'YES' INSTEAD OF TRUE
+                  if ( $this_widget[ 'for_sidebar' ] == true ) {
+                    $for_sidebar = 'yes';
+                  }
+                  $fields = array(
+                      '_feed_category_list'      => $this_widget[ 'feed_category_list' ],
+                      '_feed_title'              => $this_widget[ 'feed_title' ],
+                      '_feed_widget_post_count'  => $this_widget[ 'feed_widget_post_count' ],
+                      '_for_sidebar'             => $for_sidebar,
+                      '_feed_widget_btn_text'    => $this_widget[ 'feed_widget_btn_text' ],
+                      '_feed_widget_btn_link'    => $this_widget[ 'feed_widget_btn_link' ]
+                  );
+                  $feed_fields[ $widget_id ] = $fields;
+                  // ================== WIDGET FIELDS =======================
+                  // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                  $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
+                  $merged_cf_feed = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
+                  update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
+                  // END WIDGET FIELDS ======================================
+
+                  // ================== SIDEBAR AREAS =======================
+                  // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
+                  $wp_sidebar_widgets = wp_get_sidebars_widgets();
+                  if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+                    // GRAB POSITION IN SIDEBAR BEFORE REMOVING
+                    $update_key = $key;
+                    unset( $wp_sidebar_widgets[ $area ][ $key ] );
+                  }
+                  // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
+                  $update_sidebar = array( 
+                    $area => array(
+                      $update_key => 'carbon_fields_alps_widget_post_feed-' . $widget_id
+                    )
+                  );
+                  // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
+                  $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
+                  wp_set_sidebars_widgets( $merged_update );
+                    break;
+                  
+                  // ===================== TEXT WITH LINK =======================================================  
+                  case 'theme_widget_text_link' :
+                    $fields = array(
+                      '_title'    => $this_widget[ 'title' ],
+                      '_content'  => $this_widget[ 'content' ],
+                      '_url'      => $this_widget[ 'url' ],
+                      '_url_text' => $this_widget[ 'url_text' ]
+                    );
+                    $text_fields[ $widget_id ] = $fields;
+                    // ================== WIDGET FIELDS =======================
+                    // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                    $existing_cf_text = get_option( 'widget_carbon_fields_alps_widget_text_with_link' );
+                    $merged_cf_text = array_merge_recursive_numeric_keys( $existing_cf_text, $text_fields );
+                    update_option( 'widget_carbon_fields_alps_widget_text_with_link', $merged_cf_text );
+                    // END WIDGET FIELDS ======================================
+
+                    // ================== SIDEBAR AREAS =======================
+                    // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
+                    $wp_sidebar_widgets = wp_get_sidebars_widgets();
+                    if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+                      // GRAB POSITION IN SIDEBAR BEFORE REMOVING
+                      $update_key = $key;
+                      unset( $wp_sidebar_widgets[ $area ][ $key ] );
+                    }
+                    // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
+                    $update_sidebar = array( 
+                      $area => array(
+                        $update_key => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
+                      )
+                    );
+                    // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
+                    $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
+                    wp_set_sidebars_widgets( $merged_update );
+                    // END SIDEBAR AREAS ======================================
+                      break;
+              } // PIKLIST WIDGET TYPE
+            }  // FOREACH PIKLIST WIDGET
+          } // FOREACH WIDGET TO CHECK
+        }  // IF WIDGETS TO PROCESS
+      } // FOREACH SIDEBAR AREA
+    } // IF WE HAVE ANY SIDEBAR CONFIG
+
+    // UTILITY FUNCTION TO PRESERVE NUMERIC KEYS IN ARRAYS WHEN MERGING
+    // array_merge_recursive DOES *NOT* PRESERVE NUMERIC KEYS NEEDED FOR WP
+    function array_merge_recursive_numeric_keys() {
+      $arrays = func_get_args();
+      $base   = array_shift( $arrays );
+      foreach ( $arrays as $array ) {
+        reset ( $base );
+        while ( list( $key, $value ) = @each( $array ) ) {
+          if ( is_array( $value ) && @is_array( $base[ $key ] )) {
+            $base[ $key ] = array_merge_recursive_numeric_keys( $base[ $key ] , $value );
+          }
+          else {
+            $base[ $key ] = $value;
+          }
+        }
+      }
+      return $base;
+    }
+
+    /* *******************************************************************************
       PAGE FIELDS
     ******************************************************************************* */
    $update_fields = array(
