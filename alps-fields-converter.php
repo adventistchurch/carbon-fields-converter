@@ -26,8 +26,8 @@ function alps_convert_fields() {
   $already_updated = get_option( 'alps_cf_converted' );
   if ( $already_updated ) {
     // OUR WORK HERE IS DONE
-    
-  } else {
+  } 
+  else {
     /* *******************************************************************************
       THEME OPTIONS
     ******************************************************************************* */
@@ -210,24 +210,7 @@ function alps_convert_fields() {
       } // FOREACH SIDEBAR AREA
     } // IF WE HAVE ANY SIDEBAR CONFIG
 
-    // UTILITY FUNCTION TO PRESERVE NUMERIC KEYS IN ARRAYS WHEN MERGING
-    // array_merge_recursive DOES *NOT* PRESERVE NUMERIC KEYS NEEDED FOR WP
-    function array_merge_recursive_numeric_keys() {
-      $arrays = func_get_args();
-      $base   = array_shift( $arrays );
-      foreach ( $arrays as $array ) {
-        reset ( $base );
-        while ( list( $key, $value ) = @each( $array ) ) {
-          if ( is_array( $value ) && @is_array( $base[ $key ] )) {
-            $base[ $key ] = array_merge_recursive_numeric_keys( $base[ $key ] , $value );
-          }
-          else {
-            $base[ $key ] = $value;
-          }
-        }
-      }
-      return $base;
-    }
+  
 
     /* *******************************************************************************
       PAGE FIELDS
@@ -307,8 +290,27 @@ function alps_convert_fields() {
           }
         } // FOREACH FIELD
       } // IF FIELDS TO CONVERT
-    }
+    } // UPDATE FIELDS
 
    add_option( 'alps_cf_converted', TRUE );
    }
+}
+
+// UTILITY FUNCTION TO PRESERVE NUMERIC KEYS IN ARRAYS WHEN MERGING
+// array_merge_recursive DOES *NOT* PRESERVE NUMERIC KEYS NEEDED FOR WP
+function array_merge_recursive_numeric_keys() {
+  $arrays = func_get_args();
+  $base   = array_shift( $arrays );
+  foreach ( $arrays as $array ) {
+    reset ( $base );
+    while ( list( $key, $value ) = @each( $array ) ) {
+      if ( is_array( $value ) && @is_array( $base[ $key ] )) {
+        $base[ $key ] = array_merge_recursive_numeric_keys( $base[ $key ] , $value );
+      }
+      else {
+        $base[ $key ] = $value;
+      }
+    }
   }
+  return $base;
+}
