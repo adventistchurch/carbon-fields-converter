@@ -34,7 +34,6 @@ function alps_convert_fields() {
     $alps_options = get_option( 'alps_theme_settings' );
 
     if ( $alps_options )  {
-
       foreach ( $alps_options as $opt_key =>  $opt_val ) {
         // IS THIS A COMPLEX / REPEATER STYLE FIELD?
         if ( is_array( $opt_val ) ) {
@@ -57,6 +56,10 @@ function alps_convert_fields() {
             }
           } else {
             // WE HAVE A SIMPLE FIELD / VALUE
+            // ADDRESSING WEIRD BUG FOR LOGOS - RENAME FIELD
+            if ( 'logo_desktop' || 'logo_mobile' || 'logo_text' == $opt_key ) {
+              $opt_key = 'option_' . $opt_key;
+            }
             add_option( '_' .$opt_key, $opt_val );
           }
         }
