@@ -82,7 +82,7 @@ function alps_convert_fields() {
           
           foreach ( $area_widgets as $this_widget_title ) {
           // ONLY MATCH ON PIKLIST WIDGETS
-          if ( strpos( $area_widgets, $match_title ) !== false ) {
+          if ( strpos( $this_widget_title, $match_title ) !== false ) {
               // A MATCH - SO GET WIDGET INFO - GET ID
               $getID        = explode( '-', $area_widget );
               $widget_id    = array_pop( $getID );  
