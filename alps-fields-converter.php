@@ -32,6 +32,7 @@ function alps_convert_fields() {
       THEME OPTIONS
     ******************************************************************************* */
     $alps_options = get_option( 'alps_theme_settings' );
+    
 
     if ( $alps_options )  {
       foreach ( $alps_options as $opt_key =>  $opt_val ) {
@@ -75,13 +76,13 @@ function alps_convert_fields() {
       $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
       $match_title      = 'piklist-universal-widget-theme';
       // GET SIDEBAR AREAS
-      foreach ( $alps_sidebar_widgets as $area => $area_widget  ) {
+      foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
         // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
-        if ( count( $area_widget ) ) {
-          // 
-          // foreach ( $area_widgets as $this_widget_title ) {
+        if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
+          
+          foreach ( $area_widgets as $this_widget_title ) {
           // ONLY MATCH ON PIKLIST WIDGETS
-          if ( strpos( $area_widget, $match_title ) !== false ) {
+          if ( strpos( $area_widgets, $match_title ) !== false ) {
               // A MATCH - SO GET WIDGET INFO - GET ID
               $getID        = explode( '-', $area_widget );
               $widget_id    = array_pop( $getID );  
@@ -211,7 +212,7 @@ function alps_convert_fields() {
                       break;
               } // PIKLIST WIDGET TYPE
             }  // FOREACH PIKLIST WIDGET
-          // } // FOREACH WIDGET TO CHECK 
+          } // FOREACH WIDGET TO CHECK 
         }  // IF WIDGETS TO PROCESS
       } // FOREACH SIDEBAR AREA
     } // IF WE HAVE ANY SIDEBAR CONFIG
