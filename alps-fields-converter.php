@@ -49,10 +49,10 @@ function alps_convert_fields() {
           if ( 'category' == $opt_key ) {
             if ( $opt_val ) {
               // CARBON FIELDS WANTS IT THIS WAY
-              add_option( '_category|||0|value', 'term:category:'. $opt_val );
-              add_option( '_category|||0|type', 'term' );
-              add_option( '_category|||0|subtype', 'category' );
-              add_option( '_category|||0|id', $opt_val );
+              add_option( '_category|||0|value',    'term:category:'. $opt_val );
+              add_option( '_category|||0|type',     'term' );
+              add_option( '_category|||0|subtype',  'category' );
+              add_option( '_category|||0|id',       $opt_val );
             }
           } else {
             // WE HAVE A SIMPLE FIELD / VALUE
@@ -72,20 +72,21 @@ function alps_convert_fields() {
     $alps_sidebar_widgets = get_option( 'sidebars_widgets' );
     if ( $alps_sidebar_widgets ) {
       // FIRST GET PIKLIST WIDGET FIELD DATA
-      $piklist_widgets = get_option( 'widget_piklist-universal-widget-theme' );
-      $match_title = 'piklist-universal-widget-theme';
+      $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
+      $match_title      = 'piklist-universal-widget-theme';
       // GET SIDEBAR AREAS
-      foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
+      foreach ( $alps_sidebar_widgets as $area => $area_widget  ) {
         // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
-        if ( count( $area_widgets ) ) {
-          foreach ( $area_widgets as $this_widget_title ) {
+        if ( count( $area_widget ) ) {
+          // 
+          // foreach ( $area_widgets as $this_widget_title ) {
           // ONLY MATCH ON PIKLIST WIDGETS
-          if ( strpos( $this_widget_title, $match_title ) !== false ) {
-              // GET WIDGET INFO - GET ID
-              $getID = explode( '-', $this_widget_title );
-              $widget_id = array_pop( $getID );  
-              $this_widget = $piklist_widgets[ $widget_id ];
-              $this_type = $this_widget[ 'widget' ];
+          if ( strpos( $area_widget, $match_title ) !== false ) {
+              // A MATCH - SO GET WIDGET INFO - GET ID
+              $getID        = explode( '-', $area_widget );
+              $widget_id    = array_pop( $getID );  
+              $this_widget  = $piklist_widgets[ $widget_id ];
+              $this_type    = $this_widget[ 'widget' ];
               // HANDLE WIDGET TYPE
               switch ( $this_type ) {
                 // ===================== SOCIAL ======================================================= 
@@ -114,7 +115,9 @@ function alps_convert_fields() {
                   // ================== SIDEBAR AREAS =======================
                   // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
                   $wp_sidebar_widgets = wp_get_sidebars_widgets();
-                  if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+
+                  //if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+                  if ( ( $key = array_search( $area_widget, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
                     // GRAB POSITION IN SIDEBAR BEFORE REMOVING
                     $update_key = $key;
                     unset( $wp_sidebar_widgets[ $area ][ $key ] );
@@ -148,7 +151,7 @@ function alps_convert_fields() {
                   // ================== WIDGET FIELDS =======================
                   // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
                   $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
-                  $merged_cf_feed = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
+                  $merged_cf_feed   = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
                   update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
                   // END WIDGET FIELDS ======================================
 
@@ -183,7 +186,7 @@ function alps_convert_fields() {
                     // ================== WIDGET FIELDS =======================
                     // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
                     $existing_cf_text = get_option( 'widget_carbon_fields_alps_widget_text_with_link' );
-                    $merged_cf_text = array_merge_recursive_numeric_keys( $existing_cf_text, $text_fields );
+                    $merged_cf_text   = array_merge_recursive_numeric_keys( $existing_cf_text, $text_fields );
                     update_option( 'widget_carbon_fields_alps_widget_text_with_link', $merged_cf_text );
                     // END WIDGET FIELDS ======================================
 
@@ -208,7 +211,7 @@ function alps_convert_fields() {
                       break;
               } // PIKLIST WIDGET TYPE
             }  // FOREACH PIKLIST WIDGET
-          } // FOREACH WIDGET TO CHECK
+          // } // FOREACH WIDGET TO CHECK 
         }  // IF WIDGETS TO PROCESS
       } // FOREACH SIDEBAR AREA
     } // IF WE HAVE ANY SIDEBAR CONFIG
