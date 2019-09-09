@@ -21,11 +21,7 @@ function alps_admin_notice__success() {
 }
 
 function alps_convert_fields() {
-  // CHECK IF WE ARE ON ALPS V3
-  if ( ALPS_V3 ) {
-    die( 'VERSION 3' );
-  }
-  else {
+
     set_transient( 'alps_fields_converted', true, 5 );
     global $wpdb;
     $already_updated = get_option( 'alps_cf_converted' );
@@ -315,8 +311,8 @@ function alps_convert_fields() {
 
     add_option( 'alps_cf_converted', TRUE );
     }
-  }
-} // END alps_convert_fields
+  } // END alps_convert_fields
+
 
 // UTILITY FUNCTION TO PRESERVE NUMERIC KEYS IN ARRAYS WHEN MERGING
 // array_merge_recursive DOES *NOT* PRESERVE NUMERIC KEYS NEEDED FOR WP
