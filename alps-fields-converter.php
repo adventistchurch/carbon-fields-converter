@@ -92,12 +92,11 @@ function alps_convert_fields() {
         foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
-            
             foreach ( $area_widgets as $this_widget_title ) {
             // ONLY MATCH ON PIKLIST WIDGETS
             if ( strpos( $this_widget_title, $match_title ) !== false ) {
                 // A MATCH - SO GET WIDGET INFO - GET ID
-                $getID        = explode( '-', $area_widget );
+                $getID        = explode( '-', $this_widget_title );
                 $widget_id    = array_pop( $getID );  
                 $this_widget  = $piklist_widgets[ $widget_id ];
                 $this_type    = $this_widget[ 'widget' ];
