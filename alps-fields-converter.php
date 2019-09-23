@@ -46,7 +46,7 @@ function alps_convert_fields() {
               add_option ( $opt_newkey, $opt_subval );
             }
           } 
-          elseif ( defined( ALPS_V3 ) && $footer_field = strpos( 'footer_address', $opt_key ) ) {
+          elseif ( $footer_field = strpos( 'footer_address', $opt_key ) ) {
             // ADD CF VALUE STUB OPTION
             if ( !( $footer_stub = get_option( '__footer_address|||0|value' ) ) ) {
               add_option( '_footer_address|||0|value', '_' );
@@ -77,11 +77,11 @@ function alps_convert_fields() {
                 'footer_logo_icon'
               ];
 
-              if ( !defined( ALPS_V3 ) ) {
-                if ( in_array( $opt_key,  $match_fields ) ) {
-                  $opt_key = 'option_' . $opt_key;
-                }
+              
+              if ( in_array( $opt_key,  $match_fields ) ) {
+                $opt_key = 'option_' . $opt_key;
               }
+              
               add_option( '_' .$opt_key, $opt_val );
             }
           }
