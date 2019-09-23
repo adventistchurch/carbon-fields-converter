@@ -35,6 +35,16 @@ function alps_convert_fields() {
       $alps_options = get_option( 'alps_theme_settings' );
     
       if ( $alps_options )  {
+        
+        $footer_fields = array(
+          'footer_address_street',
+          'footer_address_city',
+          'footer_address_state',
+          'footer_address_zip',
+          'footer_address_country',
+          'footer_phone'
+        );
+
         foreach ( $alps_options as $opt_key =>  $opt_val ) {
           // IS THIS A COMPLEX / REPEATER STYLE FIELD?
           if ( is_array( $opt_val ) ) {
@@ -46,7 +56,7 @@ function alps_convert_fields() {
               add_option ( $opt_newkey, $opt_subval );
             }
           } 
-          elseif ( $footer_field = strpos( 'footer_address', $opt_key ) ) {
+          elseif ( in_array( $opt_key,  $footer_fields ) ) {
             // ADD CF VALUE STUB OPTION
             if ( !( $footer_stub = get_option( '__footer_address|||0|value' ) ) ) {
               add_option( '_footer_address|||0|value', '_' );
