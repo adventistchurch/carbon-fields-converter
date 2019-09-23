@@ -33,8 +33,7 @@ function alps_convert_fields() {
         THEME OPTIONS
       ******************************************************************************* */
       $alps_options = get_option( 'alps_theme_settings' );
-      
-
+    
       if ( $alps_options )  {
         foreach ( $alps_options as $opt_key =>  $opt_val ) {
           // IS THIS A COMPLEX / REPEATER STYLE FIELD?
@@ -46,7 +45,16 @@ function alps_convert_fields() {
               $opt_newkey = '_' .$opt_key. '|'. $opt_subkey . '|0|0|value';
               add_option ( $opt_newkey, $opt_subval );
             }
-          } else {
+          } 
+          elseif ( defined( ALPS_V3 ) && $footer_field = strpos( 'footer_address', $opt_key ) ) {
+            // ADD CF VALUE STUB OPTION
+            if ( !( $footer_stub = get_option( '__footer_address|||0|value' ) ) ) {
+              add_option( '_footer_address|||0|value', '_' );
+            }
+            $opt_newkey = '_footer_address|'. $opt_key . '|0|0|value';
+            add_option ( $opt_newkey, $opt_val );
+          }
+          else {
             // HANDLE CATEGORY CONVERSION
             if ( 'category' == $opt_key ) {
               if ( $opt_val ) {
