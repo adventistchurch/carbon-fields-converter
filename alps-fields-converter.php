@@ -361,7 +361,7 @@ function alps_convert_fields() {
       foreach ( $update_fields as $current_field ) {
         $query =  "SELECT * FROM ".$wpdb->postmeta." WHERE meta_key = '".$current_field."'";
         $match = $wpdb->get_results ( $query, OBJECT );	
-        if ( isset( $match ) ) {
+        if ( count( $match )  > 0 ) {
           foreach ( $match as $item ) {
             $meta_value = $item->meta_value;
             $post_id = $item->post_id; 
@@ -394,7 +394,7 @@ function alps_convert_fields() {
               }
             } else {
               // WE HAVE A SIMPLE FIELD / VALUE
-              add_post_meta( $post_id, '_' .$current_field, $meta_value );
+              update_post_meta( $post_id, '_' .$current_field, $meta_value );
             }
           } // FOREACH FIELD
         } // IF FIELDS TO CONVERT
