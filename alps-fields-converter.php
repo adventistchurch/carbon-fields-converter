@@ -388,7 +388,7 @@ function alps_convert_fields() {
                     $sub_value = $sub_value[0];
                   }
                   $cf_field =  '_' . $repeater_field .'|'. $sub_field .'|' . $cnt . '|0|value';
-                  add_post_meta( $post_id, $cf_field, $sub_value );
+                  update_post_meta( $post_id, $cf_field, $sub_value );
                 }
                 $cnt++;
               }
