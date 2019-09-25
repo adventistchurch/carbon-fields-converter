@@ -68,8 +68,9 @@ function alps_convert_fields() {
               }
             }
             elseif ( in_array( $opt_key,  $option_image_fields ) ) {
-               add_option( '_data_check_' .$opt_key, $opt_val );
+               add_option( '_data_check_' .$opt_key, $opt_val[0] );
                // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
+               /*
               $img_data = unserialize( $opt_val );
               if ($img_data !== false) {
                 add_option( '_data_good_' .$opt_key, $img_data[0] );
@@ -77,6 +78,7 @@ function alps_convert_fields() {
               else {
                 add_option( '_data_failed_' .$opt_key, $img_data );
               }
+              */
             }
           } 
           elseif ( in_array( $opt_key,  $footer_fields ) ) {
