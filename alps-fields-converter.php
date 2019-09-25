@@ -45,15 +45,27 @@ function alps_convert_fields() {
           'footer_phone'
         );
 
+        $option_image_fields = array(
+          'logo',
+          'footer_logo_icon',
+          'sabbath_icon',
+          'sabbath_background',
+          'logo_desktop', 
+          'logo_mobile', 
+          'logo_text',
+        );
+
         foreach ( $alps_options as $opt_key =>  $opt_val ) {
           // IS THIS A COMPLEX / REPEATER STYLE FIELD?
           if ( is_array( $opt_val ) ) {
-            // PROCESS ARRAY
-            // INSERT CF VALUE FLAG / INDICATOR - _$opt_key|||0|value
-            update_option( '_' .$opt_key. '|||0|value', '_' );
-            foreach ( $opt_val as $opt_subkey => $opt_subval ) {
-              $opt_newkey = '_' .$opt_key. '|'. $opt_subkey . '|0|0|value';
-              update_option ( $opt_newkey, $opt_subval );
+            if ( !in_array( $opt_key,  $option_image_fields ) ) {
+              // PROCESS ARRAY
+              // INSERT CF VALUE FLAG / INDICATOR - _$opt_key|||0|value
+              update_option( '_' .$opt_key. '|||0|value', '_' );
+              foreach ( $opt_val as $opt_subkey => $opt_subval ) {
+                $opt_newkey = '_' .$opt_key. '|'. $opt_subkey . '|0|0|value';
+                update_option ( $opt_newkey, $opt_subval );
+              }
             }
           } 
           elseif ( in_array( $opt_key,  $footer_fields ) ) {
@@ -77,16 +89,11 @@ function alps_convert_fields() {
             } else {
               // WE HAVE A SIMPLE FIELD / VALUE
               // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
-              $match_fields = [ 
-                'logo_desktop', 
-                'logo_mobile', 
-                'logo_text', 
-              ];
-
-              if ( in_array( $opt_key,  $match_fields ) ) {
+              /*
+              if ( in_array( $opt_key,  $option_image_fields ) ) {
                 $opt_key = 'option_' . $opt_key;
               }
-              
+              */
               update_option( '_' .$opt_key, $opt_val );
             }
           }
