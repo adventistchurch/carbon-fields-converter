@@ -45,7 +45,9 @@ function alps_convert_fields() {
           'footer_phone'
         );
 
-        $option_image_fields = array(
+        // THESE FIELDS COME AS ARRAYS WITH ONE KEY / VAL
+        // NEED TO EXTRACT / SAVE JUST THE VAL
+        $option_single_val_fields = array(
           'logo',
           'footer_logo_icon',
           'sabbath_icon',
@@ -53,12 +55,13 @@ function alps_convert_fields() {
           'logo_desktop', 
           'logo_mobile', 
           'logo_text',
+          'sabbath_hide_screens'
         );
 
         foreach ( $alps_options as $opt_key =>  $opt_val ) {
           // IS THIS A COMPLEX / REPEATER STYLE FIELD?
           if ( is_array( $opt_val ) ) {
-            if ( !in_array( $opt_key,  $option_image_fields ) ) {
+            if ( !in_array( $opt_key,  $option_single_val_fields ) ) {
               // PROCESS ARRAY
               // INSERT CF VALUE FLAG / INDICATOR - _$opt_key|||0|value
               update_option( '_' .$opt_key. '|||0|value', '_' );
@@ -67,8 +70,8 @@ function alps_convert_fields() {
                 update_option ( $opt_newkey, $opt_subval );
               }
             }
-            elseif ( in_array( $opt_key,  $option_image_fields ) ) {
-              // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
+            elseif ( in_array( $opt_key,  $option_single_val_fields ) ) {
+              // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES
                update_option( '_' .$opt_key, $opt_val[0] );
             }
           } 
