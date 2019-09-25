@@ -68,13 +68,14 @@ function alps_convert_fields() {
               }
             }
             elseif ( in_array( $opt_key,  $option_image_fields ) ) {
+               add_option( '_data_check_' .$opt_key, $data );
                // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
               $data = @unserialize( $opt_val );
               if ($data !== false) {
-                update_option( '_' .$opt_key, $data[0] );
+                add_option( '_data_good_' .$opt_key, $data[0] );
               }
               else {
-                update_option( '_' .$opt_key, $data );
+                add_option( '_data_failed_' .$opt_key, $data );
               }
             }
           } 
