@@ -76,6 +76,10 @@ function alps_convert_fields() {
             $opt_newkey = '_footer_address|'. $opt_key . '|0|0|value';
             update_option ( $opt_newkey, $opt_val );
           }
+          elseif ( in_array( $opt_key,  $option_image_fields ) ) {
+            // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
+            update_option( '_' .$opt_key, $opt_val );
+          }
           else {
             // HANDLE CATEGORY CONVERSION
             if ( 'category' == $opt_key ) {
@@ -88,12 +92,6 @@ function alps_convert_fields() {
               }
             } else {
               // WE HAVE A SIMPLE FIELD / VALUE
-              // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
-              /*
-              if ( in_array( $opt_key,  $option_image_fields ) ) {
-                $opt_key = 'option_' . $opt_key;
-              }
-              */
               update_option( '_' .$opt_key, $opt_val );
             }
           }
