@@ -70,12 +70,12 @@ function alps_convert_fields() {
             elseif ( in_array( $opt_key,  $option_image_fields ) ) {
                add_option( '_data_check_' .$opt_key, $opt_val );
                // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
-              $data = @unserialize( $opt_val );
-              if ($data !== false) {
-                add_option( '_data_good_' .$opt_key, $data[0] );
+              $img_data = @unserialize( $opt_val );
+              if ($img_data !== false) {
+                add_option( '_data_good_' .$opt_key, $img_data[0] );
               }
               else {
-                add_option( '_data_failed_' .$opt_key, $data );
+                add_option( '_data_failed_' .$opt_key, $img_data );
               }
             }
           } 
