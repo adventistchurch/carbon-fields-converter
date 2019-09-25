@@ -71,9 +71,7 @@ function alps_convert_fields() {
                // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
               $data = @unserialize( $opt_val );
               if ($data !== false) {
-                foreach ( $data as $sub_array ) {
-                  update_option( '_' .$opt_key, $sub_array[0] );
-                }
+                update_option( '_' .$opt_key, $data[0] );
               }
             }
           } 
