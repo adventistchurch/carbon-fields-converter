@@ -67,6 +67,10 @@ function alps_convert_fields() {
                 update_option ( $opt_newkey, $opt_subval );
               }
             }
+            elseif ( in_array( $opt_key,  $option_image_fields ) ) {
+               // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
+              update_option( '_' .$opt_key, $opt_val );
+            }
           } 
           elseif ( in_array( $opt_key,  $footer_fields ) ) {
             // ADD CF VALUE STUB OPTION
@@ -75,10 +79,6 @@ function alps_convert_fields() {
             }
             $opt_newkey = '_footer_address|'. $opt_key . '|0|0|value';
             update_option ( $opt_newkey, $opt_val );
-          }
-          elseif ( in_array( $opt_key,  $option_image_fields ) ) {
-            // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
-            update_option( '_' .$opt_key, $opt_val );
           }
           else {
             // HANDLE CATEGORY CONVERSION
