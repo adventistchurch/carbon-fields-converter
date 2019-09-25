@@ -70,9 +70,11 @@ function alps_convert_fields() {
             elseif ( in_array( $opt_key,  $option_image_fields ) ) {
                // ADDRESSING WEIRD BUG FOR SINGLE ARRAY VALUES - MOSTLY IMAGES
               $data = @unserialize( $opt_val );
-              wp_die( var_export( $data ) );
               if ($data !== false) {
                 update_option( '_' .$opt_key, $data[0] );
+              }
+              else {
+                update_option( '_' .$opt_key, $data );
               }
             }
           } 
