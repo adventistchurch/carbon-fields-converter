@@ -72,12 +72,9 @@ function alps_convert_fields() {
               $data = @unserialize( $opt_val );
               if ($data !== false) {
                 foreach ( $data as $sub_array ) {
-                  foreach ( $sub_array as $sub_field => $sub_value ) {
-                    $sub_value = $sub_value[0];
-                  }
+                  update_option( '_' .$opt_key, $sub_array[0] );
                 }
               }
-              update_option( '_' .$opt_key, $sub_value );
             }
           } 
           elseif ( in_array( $opt_key,  $footer_fields ) ) {
