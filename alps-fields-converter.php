@@ -50,19 +50,19 @@ function alps_convert_fields() {
           if ( is_array( $opt_val ) ) {
             // PROCESS ARRAY
             // INSERT CF VALUE FLAG / INDICATOR - _$opt_key|||0|value
-            add_option( '_' .$opt_key. '|||0|value', '_' );
+            update_option( '_' .$opt_key. '|||0|value', '_' );
             foreach ( $opt_val as $opt_subkey => $opt_subval ) {
               $opt_newkey = '_' .$opt_key. '|'. $opt_subkey . '|0|0|value';
-              add_option ( $opt_newkey, $opt_subval );
+              update_option ( $opt_newkey, $opt_subval );
             }
           } 
           elseif ( in_array( $opt_key,  $footer_fields ) ) {
             // ADD CF VALUE STUB OPTION
             if ( !( $footer_stub = get_option( '__footer_address|||0|value' ) ) ) {
-              add_option( '_footer_address|||0|value', '_' );
+              update_option( '_footer_address|||0|value', '_' );
             }
             $opt_newkey = '_footer_address|'. $opt_key . '|0|0|value';
-            add_option ( $opt_newkey, $opt_val );
+            update_option ( $opt_newkey, $opt_val );
           }
           else {
             // HANDLE CATEGORY CONVERSION
@@ -81,18 +81,13 @@ function alps_convert_fields() {
                 'logo_desktop', 
                 'logo_mobile', 
                 'logo_text', 
-                'logo', 
-                'sabbath_icon',
-                'sabbath_background',
-                'footer_logo_icon'
               ];
 
-              
               if ( in_array( $opt_key,  $match_fields ) ) {
                 $opt_key = 'option_' . $opt_key;
               }
               
-              add_option( '_' .$opt_key, $opt_val );
+              update_option( '_' .$opt_key, $opt_val );
             }
           }
         } // IF ALPS OPTIONS
@@ -399,7 +394,7 @@ function alps_convert_fields() {
           } // FOREACH FIELD
         } // IF FIELDS TO CONVERT
       } // UPDATE FIELDS
-    add_option( 'alps_cf_converted', TRUE );
+    update_option( 'alps_cf_converted', TRUE );
     }
   } // END alps_convert_fields
 
