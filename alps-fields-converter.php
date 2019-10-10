@@ -11,6 +11,11 @@ add_action( 'admin_notices', 'alps_admin_notice__success' );
 
 function alps_admin_notice__success() {
   if ( get_transient( 'alps_fields_converted' ) ) {
+   if ( !defined( 'ALPS_V3' ) ) {
+     echo '<h1>NO ALPS 3</h1>';
+   } else {
+     echo '<h1>ALPS 3</h1>';
+   }
 ?>
 <div class="notice notice-success is-dismissible">
   <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, so if you are reactivating this plugin, nothing was done. You can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
