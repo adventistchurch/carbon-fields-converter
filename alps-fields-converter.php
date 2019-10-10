@@ -174,12 +174,10 @@ function alps_convert_fields() {
                         $for_sidebar = 'yes';
                       }
                       $fields = array(
-                          '_feed_category_list'      => $this_widget[ 'feed_category_list' ],
-                          '_feed_title'              => $this_widget[ 'feed_title' ],
-                          '_feed_widget_post_count'  => $this_widget[ 'feed_widget_post_count' ],
-                          '_for_sidebar'             => $for_sidebar,
-                          '_feed_widget_btn_text'    => $this_widget[ 'feed_widget_btn_text' ],
-                          '_feed_widget_btn_link'    => $this_widget[ 'feed_widget_btn_link' ]
+                        '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
+                        '_post_feed_title'         => $this_widget[ 'feed_title' ],
+                        '_post_feed_count'         => $this_widget[ 'feed_widget_post_count' ],
+                        '_post_feed_url'           => $this_widget[ 'feed_widget_btn_link' ]
                       );
                       $feed_fields[ $widget_id ] = $fields;
                       // ================== WIDGET FIELDS =======================
