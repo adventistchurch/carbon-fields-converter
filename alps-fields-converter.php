@@ -13,7 +13,10 @@ function alps_admin_notice__success() {
   if ( get_transient( 'alps_fields_converted' ) ) {
 ?>
 <div class="notice notice-success is-dismissible">
-    <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, so if you are reactivating this plugin, nothing was done. You can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
+  <?php if ( defined( ALPS_V3 ) ) {
+      echo '<p>THIS IS ALPS 3</p>';
+  } ?>
+  <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, so if you are reactivating this plugin, nothing was done. You can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
 </div>
 <?php
    delete_transient( 'alps_fields_converted' );
@@ -174,10 +177,12 @@ function alps_convert_fields() {
                         $for_sidebar = 'yes';
                       }
                       $fields = array(
-                        '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
-                        '_post_feed_title'         => $this_widget[ 'feed_title' ],
-                        '_post_feed_count'         => $this_widget[ 'feed_widget_post_count' ],
-                        '_post_feed_url'           => $this_widget[ 'feed_widget_btn_link' ]
+                          '_feed_category_list'      => $this_widget[ 'feed_category_list' ],
+                          '_feed_title'              => $this_widget[ 'feed_title' ],
+                          '_feed_widget_post_count'  => $this_widget[ 'feed_widget_post_count' ],
+                          '_for_sidebar'             => $for_sidebar,
+                          '_feed_widget_btn_text'    => $this_widget[ 'feed_widget_btn_text' ],
+                          '_feed_widget_btn_link'    => $this_widget[ 'feed_widget_btn_link' ]
                       );
                       $feed_fields[ $widget_id ] = $fields;
                       // ================== WIDGET FIELDS =======================
@@ -242,7 +247,6 @@ function alps_convert_fields() {
                         break;
                   
                   case 'theme_widget_post_feed' :
-      
                     $fields = array(
                         '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
                         '_post_feed_title'         => $this_widget[ 'feed_title' ],
