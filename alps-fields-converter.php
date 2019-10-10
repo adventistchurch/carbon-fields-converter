@@ -167,6 +167,46 @@ function alps_convert_fields() {
                       $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
                       wp_set_sidebars_widgets( $merged_update );
                         break;
+                        
+                    case 'theme_widget_post_feed' :
+                      // CARBON FIELDS USES 'YES' INSTEAD OF TRUE
+                      if ( $this_widget[ 'for_sidebar' ] == true ) {
+                        $for_sidebar = 'yes';
+                      }
+                      $fields = array(
+                          '_feed_category_list'      => $this_widget[ 'feed_category_list' ],
+                          '_feed_title'              => $this_widget[ 'feed_title' ],
+                          '_feed_widget_post_count'  => $this_widget[ 'feed_widget_post_count' ],
+                          '_for_sidebar'             => $for_sidebar,
+                          '_feed_widget_btn_text'    => $this_widget[ 'feed_widget_btn_text' ],
+                          '_feed_widget_btn_link'    => $this_widget[ 'feed_widget_btn_link' ]
+                      );
+                      $feed_fields[ $widget_id ] = $fields;
+                      // ================== WIDGET FIELDS =======================
+                      // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                      $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
+                      $merged_cf_feed   = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
+                      update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
+                      // END WIDGET FIELDS ======================================
+
+                      // ================== SIDEBAR AREAS =======================
+                      // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
+                      $wp_sidebar_widgets = wp_get_sidebars_widgets();
+                      if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+                        // GRAB POSITION IN SIDEBAR BEFORE REMOVING
+                        $update_key = $key;
+                        unset( $wp_sidebar_widgets[ $area ][ $key ] );
+                      }
+                      // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
+                      $update_sidebar = array( 
+                        $area => array(
+                          $update_key => 'carbon_fields_alps_widget_post_feed-' . $widget_id
+                        )
+                      );
+                      // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
+                      $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
+                      wp_set_sidebars_widgets( $merged_update );
+                        break;
                   }
                 } // IF V2
                 if ( defined( ALPS_V3 ) ) {
@@ -202,23 +242,14 @@ function alps_convert_fields() {
                       $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
                       wp_set_sidebars_widgets( $merged_update );
                         break;
-                  }
-                }
-                // THE FOLLOWING ARE IN V2 AND V3
-                // ===================== POST FEED ======================================================= 
-                switch ( $this_type ) {
+                  
                   case 'theme_widget_post_feed' :
-                    // CARBON FIELDS USES 'YES' INSTEAD OF TRUE
-                    if ( $this_widget[ 'for_sidebar' ] == true ) {
-                      $for_sidebar = 'yes';
-                    }
+      
                     $fields = array(
-                        '_feed_category_list'      => $this_widget[ 'feed_category_list' ],
-                        '_feed_title'              => $this_widget[ 'feed_title' ],
-                        '_feed_widget_post_count'  => $this_widget[ 'feed_widget_post_count' ],
-                        '_for_sidebar'             => $for_sidebar,
-                        '_feed_widget_btn_text'    => $this_widget[ 'feed_widget_btn_text' ],
-                        '_feed_widget_btn_link'    => $this_widget[ 'feed_widget_btn_link' ]
+                        '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
+                        '_post_feed_title'         => $this_widget[ 'feed_title' ],
+                        '_post_feed_count'         => $this_widget[ 'feed_widget_post_count' ],
+                        '_post_feed_url'           => $this_widget[ 'feed_widget_btn_link' ]
                     );
                     $feed_fields[ $widget_id ] = $fields;
                     // ================== WIDGET FIELDS =======================
@@ -246,7 +277,12 @@ function alps_convert_fields() {
                     $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
                     wp_set_sidebars_widgets( $merged_update );
                       break;
-                  
+                  }
+                }
+                // THE FOLLOWING ARE IN V2 AND V3
+                // ===================== POST FEED ======================================================= 
+                switch ( $this_type ) {
+ 
                     // ===================== TEXT WITH LINK =======================================================  
                     case 'theme_widget_text_link' :
                       $fields = array(
