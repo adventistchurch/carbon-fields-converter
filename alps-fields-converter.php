@@ -13,9 +13,6 @@ function alps_admin_notice__success() {
   if ( get_transient( 'alps_fields_converted' ) ) {
 ?>
 <div class="notice notice-success is-dismissible">
-  <?php if ( defined( ALPS_V3 ) ) {
-      echo '<p>THIS IS ALPS 3</p>';
-  } ?>
   <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, so if you are reactivating this plugin, nothing was done. You can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
 </div>
 <?php
@@ -124,7 +121,7 @@ function alps_convert_fields() {
                 $widget_id    = array_pop( $getID );  
                 $this_widget  = $piklist_widgets[ $widget_id ];
                 $this_type    = $this_widget[ 'widget' ];
-                if ( !defined( ALPS_V3 ) ) {
+                if ( !defined( 'ALPS_V3' ) ) {
                 // HANDLE WIDGET TYPE
                   switch ( $this_type ) {
                   // UPDATE V2
@@ -212,7 +209,7 @@ function alps_convert_fields() {
                         break;
                   }
                 } // IF V2
-                if ( defined( ALPS_V3 ) ) {
+                if ( defined( 'ALPS_V3' ) ) {
                   switch ( $this_type ) {
                     // AUTHOR BOX
                     case 'theme_author_box' :
