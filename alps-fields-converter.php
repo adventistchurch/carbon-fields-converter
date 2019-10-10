@@ -11,14 +11,15 @@ add_action( 'admin_notices', 'alps_admin_notice__success' );
 
 function alps_admin_notice__success() {
   if ( get_transient( 'alps_fields_converted' ) ) {
-   if ( !defined( 'ALPS_V3' ) ) {
-     echo '<h1>NO ALPS 3</h1>';
-   } else {
-     echo '<h1>ALPS 3</h1>';
-   }
+  
 ?>
 <div class="notice notice-success is-dismissible">
   <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, so if you are reactivating this plugin, nothing was done. You can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
+  <?php if ( !defined( 'ALPS_V3' ) ) {
+     echo '<h1>NO ALPS 3</h1>';
+   } else {
+     echo '<h1>ALPS 3</h1>';
+   } ?>
 </div>
 <?php
    delete_transient( 'alps_fields_converted' );
@@ -118,15 +119,17 @@ function alps_convert_fields() {
         foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
+            $the_theme = get_option( 'current_theme' );
+
             foreach ( $area_widgets as $this_widget_title ) {
-            // ONLY MATCH ON PIKLIST WIDGETS
-            if ( strpos( $this_widget_title, $match_title ) !== false ) {
+              // ONLY MATCH ON PIKLIST WIDGETS
+              if ( strpos( $this_widget_title, $match_title ) !== false ) {
                 // A MATCH - SO GET WIDGET INFO - GET ID
                 $getID        = explode( '-', $this_widget_title );
                 $widget_id    = array_pop( $getID );  
                 $this_widget  = $piklist_widgets[ $widget_id ];
                 $this_type    = $this_widget[ 'widget' ];
-                if ( !defined( 'ALPS_V3' ) ) {
+                if ( $the_theme == 'ALPS' ) {
                 // HANDLE WIDGET TYPE
                   switch ( $this_type ) {
                   // UPDATE V2
@@ -214,7 +217,7 @@ function alps_convert_fields() {
                         break;
                   }
                 } // IF V2
-                if ( defined( 'ALPS_V3' ) ) {
+                if ( $the_theme == 'ALPS for WordPress' ) {
                   switch ( $this_type ) {
                     // AUTHOR BOX
                     case 'theme_author_box' :
