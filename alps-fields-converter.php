@@ -267,7 +267,7 @@ function alps_convert_fields() {
                     if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
                       // GRAB POSITION IN SIDEBAR BEFORE REMOVING
                       $update_key = $key;
-                      unset( $wp_sidebar_widgets[ $area ][ $key ] );
+                      unset( $wp_sidebar_widgets[ 'sidebar' ][ $key ] );
                     }
                     // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
                     $update_sidebar = array( 
