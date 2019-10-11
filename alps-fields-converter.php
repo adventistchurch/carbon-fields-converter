@@ -115,7 +115,6 @@ function alps_convert_fields() {
         foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
-            $the_theme = get_option( 'current_theme' );
 
             foreach ( $area_widgets as $this_widget_title ) {
               // ONLY MATCH ON PIKLIST WIDGETS
