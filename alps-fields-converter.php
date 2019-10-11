@@ -5,19 +5,14 @@
  */
 defined( 'ABSPATH' ) or die( 'No direct access allowed.' );
 
-global $wpdb;
-$the_theme = get_option( 'current_theme' );
-
 register_activation_hook( __FILE__, 'alps_convert_fields' );
 
 add_action( 'admin_notices', 'alps_admin_notice__success' );
 
 function alps_admin_notice__success() {
   if ( get_transient( 'alps_fields_converted' ) ) {
-  
 ?>
 <div class="notice notice-success is-dismissible">
-  <p>THIS THEME: <?= $the_theme ?></p>
   <p><?php _e( 'Your Piklist fields have been converted. The conversion will only run once, so if you are reactivating this plugin, nothing was done. You can now remove the ALPS Fields Converter plugin.', '' ); ?></p>
   
 </div>
@@ -31,6 +26,7 @@ function alps_convert_fields() {
     set_transient( 'alps_fields_converted', true, 5 );
     global $wpdb;
     $already_updated = get_option( 'alps_cf_converted' );
+    $the_theme = wp_get_theme();
     if ( $already_updated ) {
       // OUR WORK HERE IS DONE
     } 
