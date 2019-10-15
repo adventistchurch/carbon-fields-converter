@@ -132,9 +132,10 @@ function alps_convert_fields() {
                 $this_type    = $this_widget[ 'widget' ];
 
                 $this_theme   = wp_get_theme();
+                $the_theme    = $this_theme->get( 'Name' );
                 error_log( 'check: theme: ' . $this_theme );
-                if ( $this_theme == 'ALPS' ) {
-                  error_log( 'if theme == ALPS: ' . $this_theme );
+                if ( $the_theme == 'ALPS' ) {
+                  error_log( 'if theme == ALPS: ' . $the_theme );
                 // HANDLE WIDGET TYPE
                   switch ( $this_type ) {
                   // UPDATE V2
@@ -222,8 +223,8 @@ function alps_convert_fields() {
                         break;
                   }
                 } // IF V2
-                if ( $this_theme == 'ALPS for WordPress' ) {
-                  error_log( 'ALPS v3 - made it: ' . $this_theme );
+                if ( $the_theme == 'ALPS for WordPress' ) {
+                  error_log( 'ALPS v3 - made it: ' . $the_theme );
                   switch ( $this_type ) {
                     // AUTHOR BOX
                     case 'theme_author_box' :
