@@ -23,6 +23,7 @@ function alps_admin_notice__success() {
 
 function alps_convert_fields() {
 
+    error_log('Converting fields ...');
     set_transient( 'alps_fields_converted', true, 5 );
     global $wpdb;
     $already_updated  = get_option( 'alps_cf_converted' );
