@@ -27,8 +27,6 @@ function alps_convert_fields() {
     set_transient( 'alps_fields_converted', true, 5 );
     global $wpdb;
     $already_updated  = get_option( 'alps_cf_converted' );
-    $the_theme        = wp_get_theme();
-    error_log( 'theme: ' . $the_theme );
     if ( $already_updated ) {
       // OUR WORK HERE IS DONE
       error_log( 'already updated!' );
@@ -132,9 +130,11 @@ function alps_convert_fields() {
                 $widget_id    = array_pop( $getID );  
                 $this_widget  = $piklist_widgets[ $widget_id ];
                 $this_type    = $this_widget[ 'widget' ];
-                error_log( 'check: theme: ' . $the_theme );
-                if ( $the_theme == 'ALPS' ) {
-                  error_log( 'if theme == ALPS: ' . $the_theme );
+
+                $this_theme   = wp_get_theme();
+                error_log( 'check: theme: ' . $this_theme );
+                if ( $this_theme == 'ALPS' ) {
+                  error_log( 'if theme == ALPS: ' . $this_theme );
                 // HANDLE WIDGET TYPE
                   switch ( $this_type ) {
                   // UPDATE V2
@@ -222,8 +222,8 @@ function alps_convert_fields() {
                         break;
                   }
                 } // IF V2
-                if ( $the_theme == 'ALPS for WordPress' ) {
-                  error_log( 'ALPS v3 - made it: ' . $the_theme );
+                if ( $this_theme == 'ALPS for WordPress' ) {
+                  error_log( 'ALPS v3 - made it: ' . $this_theme );
                   switch ( $this_type ) {
                     // AUTHOR BOX
                     case 'theme_author_box' :
