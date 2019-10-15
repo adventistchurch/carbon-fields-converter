@@ -25,8 +25,8 @@ function alps_convert_fields() {
 
     set_transient( 'alps_fields_converted', true, 5 );
     global $wpdb;
-    $already_updated = get_option( 'alps_cf_converted' );
-    $the_theme = wp_get_theme();
+    $already_updated  = get_option( 'alps_cf_converted' );
+    $the_theme        = wp_get_theme();
     if ( $already_updated ) {
       // OUR WORK HERE IS DONE
     } 
@@ -213,6 +213,7 @@ function alps_convert_fields() {
                   }
                 } // IF V2
                 if ( $the_theme == 'ALPS for WordPress' ) {
+                  log_this( 'ALPS v3 - made it' );
                   switch ( $this_type ) {
                     // AUTHOR BOX
                     case 'theme_author_box' :
@@ -247,6 +248,7 @@ function alps_convert_fields() {
                         break;
                   
                   case 'theme_widget_post_feed' :
+                    log_this( 'theme_widget_post_feed!' );
                     $fields = array(
                         '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
                         '_post_feed_title'         => $this_widget[ 'feed_title' ],
@@ -462,4 +464,11 @@ function array_merge_recursive_numeric_keys() {
     }
   }
   return $base;
+}
+
+function log_this($message, $shouldNotDie = true) {
+    error_log(print_r($message, true));
+    if ($shouldNotDie) {
+        exit;
+    }
 }
