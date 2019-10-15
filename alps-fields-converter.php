@@ -109,7 +109,7 @@ function alps_convert_fields() {
       ******************************************************************************* */
       // GET CURRENT SIDEBAR / WIDGET CONFIG 
       $alps_sidebar_widgets = get_option( 'sidebars_widgets' );
-      error_log( print_r( $alps_sidebar_widgets ) );
+      error_log( print_r( $alps_sidebar_widgets, true ) );
       if ( $alps_sidebar_widgets ) {
         error_log( 'we have alps sidebar widgets' );
         // FIRST GET PIKLIST WIDGET FIELD DATA
