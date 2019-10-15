@@ -119,13 +119,10 @@ function alps_convert_fields() {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
            error_log( 'foreach widget' );
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
-
             foreach ( $area_widgets as $this_widget_title ) {
               error_log( 'foreach PIKLIST widget' );
               // ONLY MATCH ON PIKLIST WIDGETS
-              $this_theme   = wp_get_theme();
-              $the_theme    = $this_theme->get( 'Name' );
-              error_log( 'check: theme: ' . $the_theme );
+              error_log( $this_widget_title );
               if ( strpos( $this_widget_title, $match_title ) !== false ) {
                 // A MATCH - SO GET WIDGET INFO - GET ID
                 error_log( 'we have a matching PIKLIST widget' );
