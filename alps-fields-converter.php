@@ -31,8 +31,10 @@ function alps_convert_fields() {
     error_log( 'theme: ' . $the_theme );
     if ( $already_updated ) {
       // OUR WORK HERE IS DONE
+      error_log( 'already updated!' );
     } 
     else {
+      error_log( 'not updated, so, we will convert.' );
       /* *******************************************************************************
         THEME OPTIONS
       ******************************************************************************* */
@@ -110,18 +112,22 @@ function alps_convert_fields() {
       // GET CURRENT SIDEBAR / WIDGET CONFIG 
       $alps_sidebar_widgets = get_option( 'sidebars_widgets' );
       if ( $alps_sidebar_widgets ) {
+        error_log( 'we have alps sidebar widgets' );
         // FIRST GET PIKLIST WIDGET FIELD DATA
         $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
         $match_title      = 'piklist-universal-widget-theme';
         // GET SIDEBAR AREAS
         foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
+           error_log( 'foreach widget' );
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
 
             foreach ( $area_widgets as $this_widget_title ) {
+              error_log( 'foreach PIKLIST widget' );
               // ONLY MATCH ON PIKLIST WIDGETS
               if ( strpos( $this_widget_title, $match_title ) !== false ) {
                 // A MATCH - SO GET WIDGET INFO - GET ID
+                error_log( 'we have a matching PIKLIST widget' );
                 $getID        = explode( '-', $this_widget_title );
                 $widget_id    = array_pop( $getID );  
                 $this_widget  = $piklist_widgets[ $widget_id ];
@@ -251,40 +257,40 @@ function alps_convert_fields() {
                       wp_set_sidebars_widgets( $merged_update );
                         break;
                   
-                  case 'theme_widget_post_feed' :
-                    error_log( 'theme_widget_post_feed!' );
-                    $fields = array(
+                    case 'theme_widget_post_feed' :
+                      error_log( 'theme_widget_post_feed!' );
+                      $fields = array(
                         '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
                         '_post_feed_title'         => $this_widget[ 'feed_title' ],
                         '_post_feed_count'         => $this_widget[ 'feed_widget_post_count' ],
                         '_post_feed_url'           => $this_widget[ 'feed_widget_btn_link' ]
-                    );
-                    $feed_fields[ $widget_id ] = $fields;
-                    // ================== WIDGET FIELDS =======================
-                    // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
-                    $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
-                    $merged_cf_feed   = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
-                    update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
-                    // END WIDGET FIELDS ======================================
+                      );
+                      $feed_fields[ $widget_id ] = $fields;
+                      // ================== WIDGET FIELDS =======================
+                      // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                      $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
+                      $merged_cf_feed   = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
+                      update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
+                      // END WIDGET FIELDS ======================================
 
-                    // ================== SIDEBAR AREAS =======================
-                    // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
-                    $wp_sidebar_widgets = wp_get_sidebars_widgets();
-                    if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
-                      // GRAB POSITION IN SIDEBAR BEFORE REMOVING
-                      $update_key = $key;
-                      unset( $wp_sidebar_widgets[ 'sidebar' ][ $key ] );
-                    }
-                    // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
-                    $update_sidebar = array( 
-                      $area => array(
-                        $update_key => 'carbon_fields_alps_widget_post_feed-' . $widget_id
-                      )
-                    );
-                    // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
-                    $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
-                    wp_set_sidebars_widgets( $merged_update );
-                      break;
+                      // ================== SIDEBAR AREAS =======================
+                      // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
+                      $wp_sidebar_widgets = wp_get_sidebars_widgets();
+                      if ( ( $key = array_search( $this_widget_title, $wp_sidebar_widgets[ $area ] ) ) !== false ) {
+                        // GRAB POSITION IN SIDEBAR BEFORE REMOVING
+                        $update_key = $key;
+                        unset( $wp_sidebar_widgets[ 'sidebar' ][ $key ] );
+                      }
+                      // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
+                      $update_sidebar = array( 
+                        $area => array(
+                          $update_key => 'carbon_fields_alps_widget_post_feed-' . $widget_id
+                        )
+                      );
+                      // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
+                      $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
+                      wp_set_sidebars_widgets( $merged_update );
+                        break;
                   }
                 }
                 // THE FOLLOWING ARE IN V2 AND V3
