@@ -109,6 +109,7 @@ function alps_convert_fields() {
       ******************************************************************************* */
       // GET CURRENT SIDEBAR / WIDGET CONFIG 
       $alps_sidebar_widgets = get_option( 'sidebars_widgets' );
+      error_log( $alps_sidebar_widgets );
       if ( $alps_sidebar_widgets ) {
         error_log( 'we have alps sidebar widgets' );
         // FIRST GET PIKLIST WIDGET FIELD DATA
@@ -117,7 +118,7 @@ function alps_convert_fields() {
         // GET SIDEBAR AREAS
         foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
-           error_log( 'foreach widget' );
+          error_log( 'foreach widget' );
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
             foreach ( $area_widgets as $this_widget_title ) {
               error_log( 'foreach PIKLIST widget' );
