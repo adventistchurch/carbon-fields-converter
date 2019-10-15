@@ -28,6 +28,7 @@ function alps_convert_fields() {
     global $wpdb;
     $already_updated  = get_option( 'alps_cf_converted' );
     $the_theme        = wp_get_theme();
+    error_log( 'theme: ' . $the_theme );
     if ( $already_updated ) {
       // OUR WORK HERE IS DONE
     } 
