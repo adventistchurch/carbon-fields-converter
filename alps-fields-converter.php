@@ -133,8 +133,8 @@ function alps_convert_fields() {
 
                 $this_theme   = wp_get_theme();
                 $the_theme    = $this_theme->get( 'Name' );
-                error_log( 'check: theme: ' . $this_theme );
-                if ( $the_theme == 'ALPS' ) {
+                error_log( 'check: theme: ' . $the_theme );
+                if ( $the_theme === 'ALPS' ) {
                   error_log( 'if theme == ALPS: ' . $the_theme );
                 // HANDLE WIDGET TYPE
                   switch ( $this_type ) {
