@@ -340,11 +340,43 @@ function alps_convert_fields() {
             switch( $type ) {
               case 'theme_widget_post_feed' :
               case 'theme_post_feed' :
+                // WE HAVE TO ACCOUNT FOR THE DIFFERENCES BETWEEN V2 AND V3 HERE
+                // BECAUSE WE'LL NEVER KNOW WHICH ONE WE ARE WORKING WITH
+                $feed_list      = '';
+                $feed_cat_id    = '';
+                $feed_url       = '';
+                $feed_count     = '';
+                $feed_offset    = '';
+                $feed_featured  = '';
+                $feed_layout    = '';
+
+                if ( isset( $this_widget[ 'feed_category_list'] ) ) $feed_list = $this_widget[ 'feed_category_list' ];
+                if ( isset( $this_widget[ 'post_feed_category'] ) ) $feed_list = $this_widget[ 'post_feed_category' ];
+
+                if ( isset( $this_widget[ 'post_feed_title' ] ) ) $feed_cat_id = $this_widget[ 'post_feed_title' ];
+                if ( isset( $this_widget[ 'feed_title' ] ) ) $feed_cat_id = $this_widget[ 'feed_title' ];
+                
+                if ( isset( $this_widget[ 'feed_widget_btn_link' ] ) ) $feed_url = $this_widget[ 'feed_widget_btn_link' ];
+                if ( isset( $this_widget[ 'post_feed_url' ] ) ) $feed_url = $this_widget[ 'post_feed_url' ];
+
+                if ( isset( $this_widget[ 'feed_widget_post_count' ] ) ) $feed_count = $this_widget[ 'feed_widget_post_count' ];
+                if ( isset( $this_widget[ 'feed_widget_post_count' ] ) ) $feed_count = $this_widget[ 'feed_widget_post_count' ];
+                
+                if ( isset( $this_widget[ 'post_feed_offset' ] ) ) $feed_offset = $this_widget[ 'post_feed_offset' ];
+                if ( isset( $this_widget[ 'post_feed_offset' ] ) ) $feed_offset = $this_widget[ 'post_feed_offset' ];
+
+                if ( isset( $this_widget[ 'post_feed_featured' ] ) ) $feed_featured = $this_widget[ 'post_feed_featured' ];
+                if ( isset( $this_widget[ 'post_feed_layout' ] ) ) $feed_layout = $this_widget[ 'post_feed_layout' ];
+                
+
                 $fields = array(
-                  '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
-                  '_post_feed_title'         => $this_widget[ 'feed_title' ],
-                  '_post_feed_count'         => $this_widget[ 'feed_widget_post_count' ],
-                  '_post_feed_url'           => $this_widget[ 'feed_widget_btn_link' ]
+                  '_post_feed_category'    => $feed_cat_id,
+                  '_post_feed_title'       => $feed_title,
+                  '_post_feed_count'       => $feed_count,
+                  '_post_feed_url'         => $feed_url,
+                  '_post_feed_offset'      => $feed_offset,
+                  '_post_feed_featured'    => $feed_featured,
+                  '_post_feed_layout'      => $feed_layout,
                 );
                  // ================== WIDGET FIELDS =======================
                 // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
