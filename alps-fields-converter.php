@@ -330,8 +330,10 @@ function alps_convert_fields() {
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
-          $match_title      = 'piklist-universal-widget-theme';
-          error_log( print_r( $piklist_widgets, true ) );
+          //error_log( print_r( $piklist_widgets, true ) );
+          foreach ( $piklist_widgets as $this_widget ) {
+            error_log( $this_widget );
+          }
           /*
           $getID        = explode( '-', $this_widget_title );
           $widget_id    = array_pop( $getID );  
