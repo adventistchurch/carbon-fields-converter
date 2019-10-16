@@ -312,7 +312,7 @@ function alps_convert_fields() {
                     // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
                     $update_sidebar = array( 
                       $area => array(
-                        $widget_id => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
+                        $update_key => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
                       )
                     );
                     // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
@@ -352,7 +352,7 @@ function alps_convert_fields() {
                 // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
                 $update_sidebar = array( 
                   'wp_inactive_widgets' => array(
-                    $update_key => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
+                    $widget_id => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
                   )
                 );
                 // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
