@@ -312,7 +312,7 @@ function alps_convert_fields() {
                     // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
                     $update_sidebar = array( 
                       $area => array(
-                        $update_key => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
+                        $widget_id => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
                       )
                     );
                     // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
@@ -326,6 +326,7 @@ function alps_convert_fields() {
           }  // IF WIDGETS TO PROCESS
         } // FOREACH SIDEBAR AREA
         // IF WE HAVE SWITCHED FROM V2 TO V3 -------------------------- //
+        // PROBLEM: SWITCHING THEMES MEANS LEAVING WIDGETS BEHIND
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
