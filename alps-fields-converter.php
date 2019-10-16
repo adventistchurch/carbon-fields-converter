@@ -22,17 +22,13 @@ function alps_admin_notice__success() {
 }
 
 function alps_convert_fields() {
-
-    error_log('Converting fields ...');
     set_transient( 'alps_fields_converted', true, 5 );
     global $wpdb;
     $already_updated  = get_option( 'alps_cf_converted' );
     if ( $already_updated ) {
       // OUR WORK HERE IS DONE
-      error_log( 'already updated!' );
     } 
     else {
-      error_log( 'not updated, so, we will convert.' );
       /* *******************************************************************************
         THEME OPTIONS
       ******************************************************************************* */
@@ -109,21 +105,17 @@ function alps_convert_fields() {
       ******************************************************************************* */
       // GET CURRENT SIDEBAR / WIDGET CONFIG 
       $alps_sidebar_widgets = get_option( 'sidebars_widgets' );
-      error_log( print_r( $alps_sidebar_widgets, true ) );
       if ( $alps_sidebar_widgets ) {
-        error_log( 'we have alps sidebar widgets' );
+        error_log( print_r( $alps_sidebar_widgets, true ) );
         // FIRST GET PIKLIST WIDGET FIELD DATA
         $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
         $match_title      = 'piklist-universal-widget-theme';
         // GET SIDEBAR AREAS
         foreach ( $alps_sidebar_widgets as $area => $area_widgets  ) {
           // IF WIDGET AREAS HAVE ASSIGNED WIDGETS
-          error_log( 'foreach widget' );
           if ( is_array( $area_widgets ) && !empty( $area_widgets ) ) {
             foreach ( $area_widgets as $this_widget_title ) {
-              error_log( 'foreach PIKLIST widget' );
               // ONLY MATCH ON PIKLIST WIDGETS
-              error_log( $this_widget_title );
               if ( strpos( $this_widget_title, $match_title ) !== false ) {
                 // A MATCH - SO GET WIDGET INFO - GET ID
                 error_log( 'we have a matching PIKLIST widget' );
