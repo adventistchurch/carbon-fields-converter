@@ -36,7 +36,6 @@ function alps_convert_fields() {
       $alps_options = get_option( 'alps_theme_settings' );
     
       if ( $alps_options )  {
-        
         $footer_fields = array(
           'footer_address_street',
           'footer_address_city',
@@ -330,25 +329,7 @@ function alps_convert_fields() {
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
-          error_log( 'OVERALL: --------- ' );
-          error_log( print_r( $piklist_widgets, true ) );
-          error_log( '-------------------' );
-          foreach ( $piklist_widgets as $piklist_widget => $widget_data ) {
-            error_log( 'piklist widget: ');
-            error_log( print_r( $piklist_widget, true ) );
-            error_log( '------- end piklist widget --------' );
-            error_log( 'widget_data: ' );
-            error_log( print_r( $widget_data, true ) );
-            error_log( '------------------ end widget ============ ' );
-            // error_log( print_r( $this_widget, true ) );
-            /*
-               [widget] => theme_widget_post_feed
-              [feed_category_list] => 1
-              [feed_title] => Custom Feed Title
-              [feed_widget_post_count] => 5
-              [feed_widget_btn_link] => #more-link
-            */
-            /*
+          foreach ( $piklist_widgets as $widget_id => $this_widget ) {
             $type = $this_widget['widget'];
             switch( $type ) {
               case 'theme_widget_post_feed' :
@@ -360,19 +341,25 @@ function alps_convert_fields() {
                 );
                  // ================== WIDGET FIELDS =======================
                 // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                $feed_fields[ $widget_id ] = $fields;
                 $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
                 $merged_cf_feed   = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
                 update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
-                // END WIDGET FIELDS ======================================
-            */
-              
+                // ================== SIDEBAR AREAS =======================
+                // GET CURRENT SIDEBAR AREA CONFIG & THEN REMOVE PIKLIST WIDGET
+                $wp_sidebar_widgets = wp_get_sidebars_widgets();
+                // PREPARE INSERT THIS CF WIDGET INTO SIDEBARS_WIDGETS
+                $update_sidebar = array( 
+                  'wp_inactive_widgets' => array(
+                    $update_key => 'carbon_fields_alps_widget_text_with_link-' . $widget_id
+                  )
+                );
+                // COMBINE NEW CF WIDGETS WITH EXISTING CONFIGURATION & SET NEW CONFIGURATION
+                $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
+                wp_set_sidebars_widgets( $merged_update );
+                // END SIDEBAR AREAS ======================================
+                  break;
           }
-          /*
-          $getID        = explode( '-', $this_widget_title );
-          $widget_id    = array_pop( $getID );  
-          $this_widget  = $piklist_widgets[ $widget_id ];
-          $this_type    = $this_widget[ 'widget' ];
-          */
         } // SWITCH FROM V2 TO V3
       } // IF WE HAVE ANY SIDEBAR CONFIG
 
@@ -492,7 +479,7 @@ function alps_convert_fields() {
     update_option( 'alps_cf_converted', TRUE );
     }
   } // END alps_convert_fields
-
+}
 
 // UTILITY FUNCTION TO PRESERVE NUMERIC KEYS IN ARRAYS WHEN MERGING
 // array_merge_recursive DOES *NOT* PRESERVE NUMERIC KEYS NEEDED FOR WP
