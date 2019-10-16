@@ -330,9 +330,37 @@ function alps_convert_fields() {
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
-          //error_log( print_r( $piklist_widgets, true ) );
-          foreach ( $piklist_widgets as $this_widget ) {
-            error_log( print_r( $this_widget, true ) );
+          foreach ( $piklist_widgets as $piklist_widget => $widget_data ) {
+            error_log( print_r( $piklist_widget, true ) );
+            error_log( '---' );
+            error_log( print_r( $widget_data, true ) );
+
+            // error_log( print_r( $this_widget, true ) );
+            /*
+               [widget] => theme_widget_post_feed
+              [feed_category_list] => 1
+              [feed_title] => Custom Feed Title
+              [feed_widget_post_count] => 5
+              [feed_widget_btn_link] => #more-link
+            */
+            /*
+            $type = $this_widget['widget'];
+            switch( $type ) {
+              case 'theme_widget_post_feed' :
+                $fields = array(
+                  '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
+                  '_post_feed_title'         => $this_widget[ 'feed_title' ],
+                  '_post_feed_count'         => $this_widget[ 'feed_widget_post_count' ],
+                  '_post_feed_url'           => $this_widget[ 'feed_widget_btn_link' ]
+                );
+                 // ================== WIDGET FIELDS =======================
+                // GET CURRENT WIDGET DATA, MERGE THIS ITERATION & UPDATE DB
+                $existing_cf_feed = get_option( 'widget_carbon_fields_alps_widget_post_feed' );
+                $merged_cf_feed   = array_merge_recursive_numeric_keys( $existing_cf_feed, $feed_fields );
+                update_option( 'widget_carbon_fields_alps_widget_post_feed', $merged_cf_feed );
+                // END WIDGET FIELDS ======================================
+            */
+              
           }
           /*
           $getID        = explode( '-', $this_widget_title );
