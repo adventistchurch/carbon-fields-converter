@@ -330,11 +330,16 @@ function alps_convert_fields() {
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
+          error_log( 'OVERALL: --------- ' );
+          error_log( print_r( $piklist_widgets, true ) );
+          error_log( '-------------------' );
           foreach ( $piklist_widgets as $piklist_widget => $widget_data ) {
+            error_log( 'piklist widget: ')
             error_log( print_r( $piklist_widget, true ) );
-            error_log( '---' );
+            error_log( '------- end piklist widget --------' );
+            error_log( 'widget_data: ' );
             error_log( print_r( $widget_data, true ) );
-
+            error_log( '------------------ end widget ============ ' );
             // error_log( print_r( $this_widget, true ) );
             /*
                [widget] => theme_widget_post_feed
