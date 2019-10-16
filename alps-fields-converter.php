@@ -343,6 +343,7 @@ function alps_convert_fields() {
                 // WE HAVE TO ACCOUNT FOR THE DIFFERENCES BETWEEN V2 AND V3 HERE
                 // BECAUSE WE'LL NEVER KNOW WHICH ONE WE ARE WORKING WITH
                 $feed_list      = '';
+                $feed_title     = '';
                 $feed_cat_id    = '';
                 $feed_url       = '';
                 $feed_count     = '';
