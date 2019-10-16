@@ -334,7 +334,7 @@ function alps_convert_fields() {
           error_log( print_r( $piklist_widgets, true ) );
           error_log( '-------------------' );
           foreach ( $piklist_widgets as $piklist_widget => $widget_data ) {
-            error_log( 'piklist widget: ')
+            error_log( 'piklist widget: ');
             error_log( print_r( $piklist_widget, true ) );
             error_log( '------- end piklist widget --------' );
             error_log( 'widget_data: ' );
