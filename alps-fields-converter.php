@@ -351,17 +351,17 @@ function alps_convert_fields() {
                 $feed_featured  = '';
                 $feed_layout    = '';
 
-                if ( isset( $this_widget[ 'feed_category_list'] ) ) $feed_list = $this_widget[ 'feed_category_list' ];
-                if ( isset( $this_widget[ 'post_feed_category'] ) ) $feed_list = $this_widget[ 'post_feed_category' ];
+                if ( isset( $this_widget[ 'feed_category_list'] ) ) $feed_cat_id = $this_widget[ 'feed_category_list' ];
+                if ( isset( $this_widget[ 'post_feed_category'] ) ) $feed_cat_id = $this_widget[ 'post_feed_category' ];
 
-                if ( isset( $this_widget[ 'post_feed_title' ] ) ) $feed_cat_id = $this_widget[ 'post_feed_title' ];
-                if ( isset( $this_widget[ 'feed_title' ] ) ) $feed_cat_id = $this_widget[ 'feed_title' ];
+                if ( isset( $this_widget[ 'post_feed_title' ] ) ) $feed_title = $this_widget[ 'post_feed_title' ];
+                if ( isset( $this_widget[ 'feed_title' ] ) ) $feed_title = $this_widget[ 'feed_title' ];
                 
                 if ( isset( $this_widget[ 'feed_widget_btn_link' ] ) ) $feed_url = $this_widget[ 'feed_widget_btn_link' ];
                 if ( isset( $this_widget[ 'post_feed_url' ] ) ) $feed_url = $this_widget[ 'post_feed_url' ];
 
                 if ( isset( $this_widget[ 'feed_widget_post_count' ] ) ) $feed_count = $this_widget[ 'feed_widget_post_count' ];
-                if ( isset( $this_widget[ 'feed_widget_post_count' ] ) ) $feed_count = $this_widget[ 'feed_widget_post_count' ];
+                if ( isset( $this_widget[ 'post_feed_count' ] ) ) $feed_count = $this_widget[ 'post_feed_count' ];
                 
                 if ( isset( $this_widget[ 'post_feed_offset' ] ) ) $feed_offset = $this_widget[ 'post_feed_offset' ];
                 if ( isset( $this_widget[ 'post_feed_offset' ] ) ) $feed_offset = $this_widget[ 'post_feed_offset' ];
