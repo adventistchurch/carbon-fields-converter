@@ -332,7 +332,7 @@ function alps_convert_fields() {
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
           //error_log( print_r( $piklist_widgets, true ) );
           foreach ( $piklist_widgets as $this_widget ) {
-            error_log( $this_widget );
+            error_log( print_r( $this_widget, true ) );
           }
           /*
           $getID        = explode( '-', $this_widget_title );
