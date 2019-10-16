@@ -172,6 +172,7 @@ function alps_convert_fields() {
                         break;
                         
                     case 'theme_widget_post_feed' :
+                    case 'theme_post_feed' :
                       // CARBON FIELDS USES 'YES' INSTEAD OF TRUE
                       if ( $this_widget[ 'for_sidebar' ] == true ) {
                         $for_sidebar = 'yes';
@@ -248,6 +249,7 @@ function alps_convert_fields() {
                         break;
                   
                     case 'theme_widget_post_feed' :
+                    case 'theme_post_feed' :
                       $fields = array(
                         '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
                         '_post_feed_title'         => $this_widget[ 'feed_title' ],
@@ -287,6 +289,7 @@ function alps_convert_fields() {
                 switch ( $this_type ) {
                   // ===================== TEXT WITH LINK =======================================================  
                   case 'theme_widget_text_link' :
+                  case 'theme_text_link' :
                     $fields = array(
                       '_title'    => $this_widget[ 'title' ],
                       '_content'  => $this_widget[ 'content' ],
@@ -329,11 +332,14 @@ function alps_convert_fields() {
         // PROBLEM: SWITCHING THEMES MEANS LEAVING WIDGETS BEHIND
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
+          error_log( 'no matched area, so convert existing piklist' );
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
           foreach ( $piklist_widgets as $widget_id => $this_widget ) {
             $type = $this_widget['widget'];
+            error_log( 'type: ' . $type );
             switch( $type ) {
               case 'theme_widget_post_feed' :
+              case 'theme_post_feed' :
                 $fields = array(
                   '_post_feed_category'      => $this_widget[ 'feed_category_list' ],
                   '_post_feed_title'         => $this_widget[ 'feed_title' ],
