@@ -405,16 +405,19 @@ function alps_convert_fields() {
                 $title      = '';
                 $content    = '';
                 $url        = '';
-                $text       = '';
+                $url_text   = '';
 
                 if ( isset( $this_widget[ 'text_link_title' ] ) ) $title = $this_widget[ 'text_link_title' ];
-                if ( isset( $this_widget[ 'title' ] ) ) $feed_layout = $this_widget[ 'title' ];
+                if ( isset( $this_widget[ 'title' ] ) ) $title = $this_widget[ 'title' ];
 
-                if ( isset( $this_widget[ 'text_link_content' ] ) ) $title = $this_widget[ 'text_link_content' ];
-                if ( isset( $this_widget[ 'content' ] ) ) $feed_layout = $this_widget[ 'content' ];
+                if ( isset( $this_widget[ 'text_link_content' ] ) ) $content = $this_widget[ 'text_link_content' ];
+                if ( isset( $this_widget[ 'content' ] ) ) $content = $this_widget[ 'content' ];
 
-                if ( isset( $this_widget[ 'text_link_url_text' ] ) ) $title = $this_widget[ 'text_link_url_text' ];
-                if ( isset( $this_widget[ 'url_text' ] ) ) $feed_layout = $this_widget[ 'url_text' ];
+                if ( isset( $this_widget[ 'text_link_url' ] ) ) $url = $this_widget[ 'text_link_url' ];
+                if ( isset( $this_widget[ 'url' ] ) ) $url = $this_widget[ 'url' ];
+
+                if ( isset( $this_widget[ 'text_link_url_text' ] ) ) $url_text = $this_widget[ 'text_link_url_text' ];
+                if ( isset( $this_widget[ 'url_text' ] ) ) $url_text = $this_widget[ 'url_text' ];
     
                 $fields = array(
                   '_title'    => $title,
