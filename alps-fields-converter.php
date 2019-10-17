@@ -442,8 +442,7 @@ function alps_convert_fields() {
                 $merged_update = array_merge_recursive_numeric_keys( $wp_sidebar_widgets, $update_sidebar );
                 wp_set_sidebars_widgets( $merged_update );
                 // END SIDEBAR AREAS ======================================
-
-                break;
+                  break;
           }
         } // SWITCH FROM V2 TO V3
       } // IF WE HAVE ANY SIDEBAR CONFIG
