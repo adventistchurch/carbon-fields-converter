@@ -573,16 +573,18 @@ function alps_convert_fields() {
 function array_merge_recursive_numeric_keys() {
   $arrays = func_get_args();
   $base   = array_shift( $arrays );
-  foreach ( $arrays as $array ) {
-    reset ( $base );
-    while ( list( $key, $value ) = @each( $array ) ) {
-      if ( is_array( $value ) && @is_array( $base[ $key ] )) {
-        $base[ $key ] = array_merge_recursive_numeric_keys( $base[ $key ] , $value );
-      }
-      else {
-        $base[ $key ] = $value;
+  if ( is_array( $base ) ) {
+    foreach ( $arrays as $array ) {
+      reset ( $base );
+      while ( list( $key, $value ) = @each( $array ) ) {
+        if ( is_array( $value ) && @is_array( $base[ $key ] )) {
+          $base[ $key ] = array_merge_recursive_numeric_keys( $base[ $key ] , $value );
+        }
+        else {
+          $base[ $key ] = $value;
+        }
       }
     }
-  }
-  return $base;
+    return $base;
+  } 
 }
