@@ -34,7 +34,7 @@ function alps_convert_fields() {
         THEME OPTIONS
       ******************************************************************************* */
       $alps_options = get_option( 'alps_theme_settings' );
-      error_log( 'this theme: ' . $the_theme );
+      //error_log( 'this theme: ' . $the_theme );
 
       if ( $alps_options )  {
         $footer_fields = array(
@@ -215,7 +215,7 @@ function alps_convert_fields() {
                   }
                 } // IF V2
                 if ( $the_theme == 'ALPS for WordPress' ) {
-                  error_log( 'ALPS v3 - made it: ' . $the_theme );
+                  //error_log( 'ALPS v3 - made it: ' . $the_theme );
                   switch ( $this_type ) {
                     // AUTHOR BOX
                     case 'theme_author_box' :
@@ -333,11 +333,11 @@ function alps_convert_fields() {
         // PROBLEM: SWITCHING THEMES MEANS LEAVING WIDGETS BEHIND
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
-          error_log( 'no matched area, so convert existing piklist' );
+          //error_log( 'no matched area, so convert existing piklist' );
           $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
           foreach ( $piklist_widgets as $widget_id => $this_widget ) {
             $type = $this_widget['widget'];
-            error_log( 'type: ' . $type );
+            //error_log( 'type: ' . $type );
             switch( $type ) {
               case 'theme_widget_post_feed' :
               case 'theme_post_feed' :
