@@ -34,7 +34,8 @@ function alps_convert_fields() {
         THEME OPTIONS
       ******************************************************************************* */
       $alps_options = get_option( 'alps_theme_settings' );
-    
+      error_log( 'this theme: ' . $the_theme );
+
       if ( $alps_options )  {
         $footer_fields = array(
           'footer_address_street',
