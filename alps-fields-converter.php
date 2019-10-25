@@ -572,10 +572,10 @@ function alps_convert_fields() {
 // array_merge_recursive DOES *NOT* PRESERVE NUMERIC KEYS NEEDED FOR WP
 function array_merge_recursive_numeric_keys() {
   $arrays = func_get_args();
-  $base   = array_shift( $arrays );
-  if ( is_array( $base ) ) {
+  $base   = @array_shift( $arrays );
+
     foreach ( $arrays as $array ) {
-      reset ( $base );
+      @reset ( $base );
       while ( list( $key, $value ) = @each( $array ) ) {
         if ( is_array( $value ) && @is_array( $base[ $key ] )) {
           $base[ $key ] = array_merge_recursive_numeric_keys( $base[ $key ] , $value );
@@ -586,5 +586,5 @@ function array_merge_recursive_numeric_keys() {
       }
     }
     return $base;
-  } 
+   
 }
