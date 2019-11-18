@@ -564,6 +564,7 @@ function alps_convert_fields() {
           } // FOREACH FIELD
         } // IF FIELDS TO CONVERT
       } // UPDATE FIELDS
+    delete_option( 'alps_theme_settings' );
     update_option( 'alps_cf_converted', TRUE );
     }
   } // END alps_convert_fields
