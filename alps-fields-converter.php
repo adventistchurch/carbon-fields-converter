@@ -214,7 +214,7 @@ function alps_convert_fields() {
                         break;
                   }
                 } // IF V2
-                if ( $the_theme == 'ALPS for WordPress' ) {
+                if ( $the_theme == 'ALPS for WordPress' || $the_theme == 'ALPS for Wordress'  ) {
                   //error_log( 'ALPS v3 - made it: ' . $the_theme );
                   switch ( $this_type ) {
                     // AUTHOR BOX
