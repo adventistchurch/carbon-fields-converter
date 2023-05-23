@@ -365,7 +365,7 @@ function alps_convert_fields() {
         if ( !$matched_area && $the_theme == 'ALPS for WordPress' || !$matched_area && $the_theme == 'ALPS for Wordpress' ) {
           // WE MUST GRAB EVERY WIDGET AND STICK IT IN wp_inactive_widgets
           //error_log( 'no matched area, so convert existing piklist' );
-          $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme' );
+          $piklist_widgets  = get_option( 'widget_piklist-universal-widget-theme', []);
           foreach ( $piklist_widgets as $widget_id => $this_widget ) {
             $type = $this_widget['widget'];
             //error_log( 'type: ' . $type );
